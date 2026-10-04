@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYOM R1 — Competitor Research Dossier</title>
+<style>
+:root{
+  --ink:#172033; --muted:#667085; --line:#dfe4ec; --paper:#fff;
+  --bg:#eef1f5; --navy:#202a44; --purple:#6546c7; --violet:#8b6ce8;
+  --orange:#e58a38; --soft:#f6f7fb; --green:#2f8f6b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);line-height:1.45}
+.viewer{position:sticky;top:0;z-index:20;background:#171d2c;color:#fff;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:12px;letter-spacing:.04em}
+.viewer .left{display:flex;align-items:center;gap:12px}
+.viewer .dot{width:8px;height:8px;border-radius:50%;background:#79c7a7}
+.viewer .right{display:flex;gap:18px;color:#c8ceda}
+.paper{width:1000px;max-width:calc(100% - 36px);margin:28px auto;background:white;box-shadow:0 16px 50px rgba(22,31,48,.14)}
+.page{padding:58px 64px;min-height:1360px;position:relative;border-bottom:1px solid #ddd}
+.page:last-child{border-bottom:0}
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);font-weight:800;margin-bottom:12px}
+h1{font-size:43px;line-height:1.05;margin:0 0 18px;letter-spacing:-.035em}
+h2{font-size:26px;line-height:1.15;margin:0 0 22px;letter-spacing:-.02em}
+h3{font-size:16px;margin:0 0 8px}
+p{margin:0 0 13px}
+.small{font-size:11px;color:var(--muted)}
+.rule{height:1px;background:var(--line);margin:25px 0}
+.cover{background:linear-gradient(145deg,#fff 0%,#fbfaff 55%,#f1eefc 100%);overflow:hidden}
+.cover .orb{position:absolute;width:520px;height:520px;border-radius:50%;right:-180px;top:100px;background:radial-gradient(circle at 40% 40%,rgba(101,70,199,.22),rgba(101,70,199,0) 68%)}
+.cover .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(101,70,199,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(101,70,199,.05) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 70%)}
+.cover-content{position:relative;z-index:2;padding-top:170px}
+.cover h1{max-width:690px;font-size:58px}
+.subtitle{font-size:18px;color:#475467;max-width:650px}
+.cover-tag{display:inline-flex;padding:8px 12px;border:1px solid #d8d0f4;border-radius:99px;background:#fff;color:var(--purple);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:22px}
+.meta-row{display:flex;gap:28px;margin-top:70px}
+.meta{border-left:2px solid var(--purple);padding-left:12px}
+.meta b{display:block;font-size:12px}
+.meta span{font-size:11px;color:var(--muted)}
+.footer{position:absolute;bottom:30px;left:64px;right:64px;display:flex;justify-content:space-between;color:#98a0ae;font-size:10px}
+.visual-title{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+.visual-title .section-no{font-size:12px;color:#98a0ae;font-weight:700}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
+.vehicle-card{border:1px solid var(--line);border-radius:18px;padding:22px;background:#fff;position:relative;overflow:hidden}
+.vehicle-card.primary{border:1px solid #cfc4f2;background:linear-gradient(145deg,#fff,#f7f4ff)}
+.vehicle-head{display:flex;justify-content:space-between;gap:15px;margin-bottom:15px}
+.badge{font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-radius:99px;padding:5px 9px;background:#f0ecfb;color:var(--purple);font-weight:800;height:max-content}
+.machine{height:160px;margin:8px 0 18px;position:relative;background:linear-gradient(180deg,#f5f6fa,#fff);border-radius:14px;overflow:hidden}
+.machine .body{position:absolute;left:19%;right:19%;top:55px;height:58px;border-radius:12px;background:#252d3e;box-shadow:0 12px 0 #141a27}
+.machine .deck{position:absolute;left:27%;right:27%;top:42px;height:22px;border-radius:8px;background:#4a5368}
+.machine .wheel{position:absolute;width:28px;height:28px;border-radius:50%;background:#171c29;bottom:20px;border:5px solid #697386}
+.machine .w1{left:18%}.machine .w2{left:34%}.machine .w3{right:34%}.machine .w4{right:18%}
+.machine .sensor{position:absolute;left:47%;top:25px;width:34px;height:22px;border-radius:6px;background:var(--purple);box-shadow:0 0 0 5px rgba(101,70,199,.10)}
+.machine .beam{position:absolute;left:51%;top:47px;width:190px;height:1px;background:rgba(101,70,199,.45);transform:rotate(-8deg);transform-origin:left}
+.machine .label{position:absolute;font-size:9px;color:#7b8493}
+.machine .l1{left:10px;top:18px}.machine .l2{right:10px;top:18px}.machine .l3{left:10px;bottom:14px}
+.capabilities{display:flex;flex-wrap:wrap;gap:7px}
+.capabilities span{padding:7px 9px;border:1px solid var(--line);border-radius:8px;font-size:10px;background:#fff}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:25px 0}
+.flow .node{padding:13px 8px;text-align:center;border:1px solid var(--line);border-radius:10px;background:#fafbfc;font-size:10px;font-weight:700;position:relative}
+.flow .node:not(:last-child):after{content:"→";position:absolute;right:-10px;top:14px;color:#9aa3b2;font-size:14px}
+.flow .node span{display:block;color:var(--muted);font-weight:500;margin-top:3px}
+.section-intro{font-size:14px;color:#475467;max-width:790px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.info{border:1px solid var(--line);border-radius:13px;padding:17px;background:#fff}
+.info h3{font-size:13px}
+.info p{font-size:11px;color:#596579}
+.specbar{display:flex;gap:4px;height:9px;margin:10px 0 14px}
+.specbar span{flex:1;background:#e5e8ee;border-radius:3px}
+.specbar span.on{background:var(--purple)}
+.timeline{border-left:2px solid #d8d2f2;margin:18px 0 0 7px;padding-left:20px}
+.timeline .item{position:relative;margin-bottom:22px}
+.timeline .item:before{content:"";position:absolute;left:-27px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--purple)}
+.timeline b{font-size:12px}
+.timeline p{font-size:11px;color:#596579;margin-top:4px}
+.matrix{width:100%;border-collapse:collapse;font-size:11px}
+.matrix th{text-align:left;padding:11px 9px;background:#f3f4f7;border-bottom:1px solid #d9dde5;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.matrix td{padding:12px 9px;border-bottom:1px solid #e7e9ee;vertical-align:top}.matrix td a{color:#6546c7;text-decoration:none;border-bottom:1px dotted #a99bdd}.matrix td a:hover{border-bottom-style:solid}
+.matrix .v{background:#faf8ff}
+.tick{font-weight:800;color:var(--purple)}
+.muted{color:#7a8494}
+.callout{border-left:4px solid var(--orange);background:#fff8f1;padding:17px 19px;border-radius:0 12px 12px 0;margin:18px 0}
+.callout strong{font-size:12px}
+.callout p{font-size:11px;color:#5d6674;margin:5px 0 0}
+.gap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.gap{border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;grid-template-columns:40px 1fr;gap:13px}
+.gap .num{width:36px;height:36px;border-radius:10px;background:#eeeafb;color:var(--purple);display:grid;place-items:center;font-weight:900}
+.gap h3{font-size:13px}.gap p{font-size:11px;color:#596579}
+.vyom-box{border:1px solid #d6cef2;background:linear-gradient(145deg,#faf8ff,#fff);border-radius:18px;padding:22px}
+.vyom-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+.stack{display:flex;flex-direction:column;gap:7px}
+.stack .layer{border:1px solid #ddd7f2;background:#fff;border-radius:9px;padding:9px 11px;font-size:10px;font-weight:700}
+.stack .layer small{font-weight:500;color:#70798a}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+.mode{padding:12px 8px;border-radius:10px;background:#fff;border:1px solid #ddd7f2;text-align:center;font-size:10px;font-weight:800}
+.mode small{display:block;color:#70798a;font-weight:500;margin-top:3px}
+.sources{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.source{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fafbfc}
+.source b{font-size:11px;display:block;margin-bottom:4px}.source .small{display:block;margin-bottom:8px}.source a{font-size:10px;color:var(--purple);word-break:break-all;text-decoration:none;font-weight:700}
+.note{font-size:10px;color:#7b8492;margin-top:14px}
+@media(max-width:800px){.paper{max-width:100%;margin:0}.page{padding:38px 25px;min-height:auto}.footer{position:relative;left:auto;right:auto;bottom:auto;margin-top:40px}.hero-grid,.two,.three,.vyom-grid,.gap-grid{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow .node:not(:last-child):after{content:"↓";right:auto;top:auto;bottom:-15px;left:50%}.cover h1{font-size:42px}.meta-row{flex-direction:column;gap:12px;margin-top:40px}.viewer{padding:0 15px}}
+@media print{body{background:#fff}.viewer{display:none}.paper{width:100%;max-width:none;margin:0;box-shadow:none}.page{page-break-after:always;min-height:100vh}.page:last-child{page-break-after:auto}}
+
+.source-link{font-size:10px;color:#6546c7;text-decoration:none;font-weight:700}
+.source-link:hover{text-decoration:underline}
+.data-link{color:inherit;text-decoration:underline;text-decoration-color:#b8ace8;text-underline-offset:3px}
+.cost-note{font-size:10px;color:#697386;margin-top:7px}
+</style>
+</head>
+<body>
+<div class="viewer">
+  <div class="left"><span class="dot"></span><b>VYOM R1</b><span>Research Dossier</span></div>
+  <div class="right"><span>COMPETITOR ANALYSIS</span><span>PRINT / PDF</span></div>
+</div>
+
+<main class="paper">
+
+<section class="page cover">
+  <div class="grid"></div><div class="orb"></div>
+  <div class="cover-content">
+    <div class="cover-tag">Defence Robotics · Research Dossier</div>
+    <div class="kicker">Defence Robotics · Competitor Research</div>
+    <h1>Competitor Analysis<br>VYOM R1</h1>
+    <p class="subtitle">A visual technical study of comparable unmanned ground systems — what they are designed to do, how their autonomy is structured, where they are being taken, and where VYOM R1 is positioned differently.</p>
+    <div class="meta-row">
+      <div class="meta"><b>Focus</b><span>Tactical last-mile logistics</span></div>
+      <div class="meta"><b>Platform</b><span>Compact autonomous UGV</span></div>
+      <div class="meta"><b>Mentor</b><span>Prof. Mahesh A. Kamthe</span></div>
+    </div>
+  </div>
+  <div class="footer"><span>VYOM R1 · INTERNAL RESEARCH DOSSIER</span><span>01</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">01 / Landscape</div><h2>Three reference platforms. Three different approaches.</h2></div><div class="section-no">COMPETITOR SET</div></div>
+  <p class="section-intro">The comparison is not based on a claim that one vehicle is universally “better.” Each platform solves a different operational problem. The useful question for VYOM R1 is: <b>where is there room for a compact Indian logistics platform with progressive autonomy and direct human override?</b></p>
+
+  <div class="hero-grid" style="margin-top:28px">
+    <div class="vehicle-card">
+      <div class="vehicle-head"><div><h3>GRIDBOTS BRUTE / BRUTE-TLH</h3><div class="small">India · Defence / homeland security</div></div><span class="badge">Reference 01</span></div>
+      <div class="machine">
+        <div class="label l1">3D LiDAR</div><div class="label l2">RTK GPS</div><div class="label l3">6×6 mobility</div>
+        <div class="body"></div><div class="deck"></div><div class="sensor"></div><div class="beam"></div>
+        <div class="wheel w1"></div><div class="wheel w2"></div><div class="wheel w3"></div><div class="wheel w4"></div>
+      </div>
+      <p class="small"><b>Design direction:</b> an Indian all-terrain UGV family with combat, ISR and tactical load-hauling variants.
+    <a class="source-link" href="https://www.gridbots.com/gridbots_brute.html" target="_blank">Source ↗</a></p>
+      <div class="capabilities"><span>LiDAR-SLAM</span><span>RTK GNSS</span><span>Follow-Me</span><span>Waypoint</span><span>Swarm</span><span>TLH cargo variant</span></div>
+    </div>
+
+    <div class="vehicle-card">
+      <div class="vehicle-head"><div><h3>ARNOBOT SAIBYA</h3><div class="small">India · Defence / industrial</div></div><span class="badge">Reference 02</span></div>
+      <div class="machine">
+        <div class="label l1">Laser</div><div class="label l2">Camera</div><div class="label l3">Inertial sensing</div>
+        <div class="body" style="left:21%;right:21%;top:59px;height:50px"></div><div class="deck" style="left:29%;right:29%;top:47px"></div><div class="sensor" style="left:47%;top:31px;background:var(--orange)"></div>
+        <div class="wheel w1" style="left:20%"></div><div class="wheel w2" style="left:35%"></div><div class="wheel w3" style="right:35%"></div><div class="wheel w4" style="right:20%"></div>
+      </div>
+      <p class="small"><b>Design direction:</b> a modular all-terrain UGV with remote, semi-autonomous and fully autonomous operation.
+    <a class="source-link" href="https://arnobot.in/product?id=saibya" target="_blank">Source ↗</a></p>
+      <div class="capabilities"><span>4×4</span><span>Laser + camera</span><span>Inertial</span><span>Modular payloads</span><span>Defence trials</span></div>
+    </div>
+  </div>
+
+  <div class="vehicle-card" style="margin-top:18px">
+    <div class="vehicle-head"><div><h3>GDLS MUTT / S-MET</h3><div class="small">United States · U.S. Army programme</div></div><span class="badge">Reference 03</span></div>
+    <div class="flow">
+      <div class="node">Soldier<span>operator</span></div>
+      <div class="node">Controller<span>RC interface</span></div>
+      <div class="node">MUTT<span>robotic mule</span></div>
+      <div class="node">Cargo<span>load carriage</span></div>
+      <div class="node">Mission kit<span>modular payload</span></div>
+    </div>
+    <p class="small"><b>Design direction:</b> soldier load reduction and tactical resupply, with semi-autonomous follow capability and a modular mission architecture.
+    <a class="source-link" href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank">U.S. Army source ↗</a></p>
+  </div>
+
+  <div class="footer"><span>REFERENCE PLATFORM MAP</span><span>02</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">02 / How they are built</div><h2>Autonomy architecture — side by side</h2></div><div class="section-no">TECHNICAL VIEW</div></div>
+  <p class="section-intro">The strongest way to explain the competition is through the <b>architecture of the vehicle</b> rather than a list of marketing claims.</p>
+
+  <div class="two" style="margin-top:28px">
+    <div class="info">
+      <h3>GRIDBOTS — Perception + localization + multi-mode autonomy</h3>
+      <div class="stack" style="margin-top:14px">
+        <div class="layer">Sensors <small>3D LiDAR · RTK GPS · cameras · thermal · IMU / odometry</small></div>
+        <div class="layer">Localization <small>LiDAR-SLAM + RTK positioning</small></div>
+        <div class="layer">Decision layer <small>waypoint navigation · follow-me · obstacle handling</small></div>
+        <div class="layer">Vehicle layer <small>6×6 all-terrain drive · hot-swappable power</small></div>
+      </div>
+    </div>
+    <div class="info">
+      <h3>ARNOBOT SAIBYA — Sensor fusion + autonomy modes</h3>
+      <div class="stack" style="margin-top:14px">
+        <div class="layer">Sensors <small>laser · camera · inertial sensing</small></div>
+        <div class="layer">Perception <small>environment understanding from fused sensing</small></div>
+        <div class="layer">Control <small>remote → semi-autonomous → fully autonomous</small></div>
+        <div class="layer">Mission layer <small>logistics · ammunition · towing · surveillance</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info" style="margin-top:18px">
+    <h3>GDLS MUTT / S-MET — Soldier-first robotic mule architecture</h3>
+    <div class="flow" style="margin-bottom:4px">
+      <div class="node">Human input<span>one-handed RC / tether</span></div>
+      <div class="node">Robot mobility<span>all-terrain mule</span></div>
+      <div class="node">Follow behaviour<span>dismount-following</span></div>
+      <div class="node">Payload<span>modular mission kits</span></div>
+      <div class="node">Future autonomy<span>S-MET Increment II</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Key interpretation</strong>
+    <p>The competitors demonstrate that autonomous UGVs are already moving from laboratory concepts toward field-oriented systems. The differentiation opportunity is therefore not “autonomous UGV” itself — it is the combination of mission, vehicle scale, autonomy progression, terrain context and human control philosophy.</p>
+  </div>
+
+  <div class="footer"><span>ARCHITECTURE COMPARISON</span><span>03</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">03 / Programme maturity</div><h2>From prototype to field use</h2></div><div class="section-no">MATURITY MAP</div></div>
+  <p class="section-intro">Publicly available material shows different maturity pathways. This is more useful than simply ranking products by specifications.</p>
+
+  <div class="two" style="margin-top:28px">
+    <div class="info">
+      <h3>GRIDBOTS</h3>
+      <div class="timeline">
+        <div class="item"><b>Product family</b><p>BRUTE developed as an Indian all-terrain UGV family with defence and homeland-security applications.</p></div>
+        <div class="item"><b>Variant strategy</b><p>BRUTE-TLH extends the platform toward tactical load hauling with a dedicated cargo configuration.</p></div>
+        <div class="item"><b>Defence engagement</b><p>Company material describes demonstrations to service headquarters and defence-exhibition presence.</p></div>
+      </div>
+    </div>
+    <div class="info">
+      <h3>ARNOBOT</h3>
+      <div class="timeline">
+        <div class="item"><b>Product platform</b><p>SAIBYA is positioned as an all-terrain unmanned platform with modular attachments.</p></div>
+        <div class="item"><b>Autonomy path</b><p>Remote, semi-autonomous and fully autonomous operating modes are part of the product positioning.</p></div>
+        <div class="item"><b>Trials & demos</b><p>Company material shows defence field-trial and field-operation demonstration activity.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info" style="margin-top:18px">
+    <h3>GDLS / U.S. ARMY — Procurement-backed pathway</h3>
+    <div class="three" style="margin-top:14px">
+      <div class="info" style="background:#fafbfc"><h3>624</h3><p>systems covered by the reported S-MET production contract.</p><a class="source-link" href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank">U.S. Army ↗</a></div>
+      <div class="info" style="background:#fafbfc"><h3>≈ ₹1,140 Cr</h3><p>approximate INR equivalent of the reported US$162.4M contract, using about ₹70/US$ for the 2019-era contract period.</p><a class="source-link" href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank">Contract source ↗</a></div>
+      <div class="info" style="background:#fafbfc"><h3>Next increment</h3><p>Army programme material adds autonomy, cyber/EMI hardening, ballistic protection and battery-safety requirements.</p><a class="source-link" href="https://www.asafm.army.mil/Portals/72/Documents/BudgetMaterial/2024/Base%20Budget/rdte/RDTE-Vol%202-Budget%20Activity%205D.pdf" target="_blank">Army budget PDF ↗</a></div>
+    </div>
+    <p class="cost-note">Important: the ₹1,140 Cr figure is a programme contract value converted from the reported US$162.4M; it is <b>not</b> a published retail/unit price. Gridbots and ARNOBOT do not publish a comparable public project price on the cited product pages.</p>
+  </div>
+
+  
+  <div class="rule"></div>
+  <h3 style="font-size:19px">Public cost visibility</h3>
+  <div class="three" style="margin-top:14px">
+    <div class="info"><h3>Gridbots BRUTE / TLH</h3><p>Public product specifications are available, but a project or procurement price is not stated on the cited official product page.</p><a class="source-link" href="https://www.gridbots.com/gridbots_brute.html" target="_blank">Official source ↗</a></div>
+    <div class="info"><h3>ARNOBOT SAIBYA</h3><p>Public product specifications and field-demo information are available, but no project price is stated on the cited official product page.</p><a class="source-link" href="https://arnobot.in/product?id=saibya" target="_blank">Official source ↗</a></div>
+    <div class="info"><h3>VYOM R1</h3><p>Proposed prototype budget: <b>₹4.99 lakh</b> as stated in the project proposal, rather than a market selling price.</p><span class="small">Project proposal source</span></div>
+  </div>
+
+<div class="footer"><span>MATURITY / DEPLOYMENT PATH</span><span>04</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">04 / The open space</div><h2>Where VYOM R1 is intentionally different</h2></div><div class="section-no">POSITIONING</div></div>
+
+  <div class="gap-grid">
+    <div class="gap"><div class="num">01</div><div><h3>Mission-first, not platform-first</h3><p>VYOM R1 is being shaped around <b>last-mile tactical logistics</b> in rough and narrow terrain, rather than treating logistics as only one possible attachment.</p></div></div>
+    <div class="gap"><div class="num">02</div><div><h3>Progressive autonomy</h3><p>The system is structured around four operating modes — Manual, Follow-Me, Supervised Autonomous and Autonomous Waypoint — allowing autonomy to increase with operator confidence.</p></div></div>
+    <div class="gap"><div class="num">03</div><div><h3>Human override remains central</h3><p>Autonomy is designed as an assistive layer. The operator can retain control when terrain, mission conditions or perception uncertainty require intervention.</p></div></div>
+    <div class="gap"><div class="num">04</div><div><h3>Compact Indian deployment context</h3><p>The target is a compact UGV suited to difficult, constrained routes and Indian operational conditions, with a pathway toward institutional trials.</p></div></div>
+  </div>
+
+  <div class="vyom-box" style="margin-top:24px">
+    <div class="vyom-grid">
+      <div>
+        <div class="kicker">VYOM R1 SYSTEM STACK</div>
+        <h3 style="font-size:21px">Sense → Localize → Plan → Move → Verify</h3>
+        <div class="stack" style="margin-top:14px">
+          <div class="layer">Perception <small>LiDAR + camera</small></div>
+          <div class="layer">State estimation <small>GNSS + IMU + wheel odometry / sensor fusion</small></div>
+          <div class="layer">Navigation <small>localization + path planning + obstacle avoidance</small></div>
+          <div class="layer">Safety <small>human override + supervised autonomy</small></div>
+        </div>
+      </div>
+      <div>
+        <div class="kicker">FOUR OPERATING MODES</div>
+        <div class="modes">
+          <div class="mode">01<small>Manual</small></div>
+          <div class="mode">02<small>Follow-Me</small></div>
+          <div class="mode">03<small>Supervised<br>Autonomous</small></div>
+          <div class="mode">04<small>Waypoint<br>Autonomous</small></div>
+        </div>
+        <div class="machine" style="margin-top:20px;height:145px">
+          <div class="label l1">LiDAR</div><div class="label l2">Camera</div><div class="label l3">Wheel odometry</div>
+          <div class="body"></div><div class="deck"></div><div class="sensor"></div><div class="beam"></div>
+          <div class="wheel w1"></div><div class="wheel w2"></div><div class="wheel w3"></div><div class="wheel w4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+      <strong>Research conclusion</strong>
+      <p>VYOM R1 is not positioned as the first autonomous UGV. Its proposed differentiation is the combination of a compact form factor, tactical last-mile logistics mission, progressive autonomy, human override and an Indian deployment context.</p>
+    </div>
+
+  <div class="footer"><span>VYOM R1 POSITIONING</span><span>05</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">05 / Direct comparison</div><h2>Capability, maturity & cost position</h2></div><div class="section-no">COMPARATIVE VIEW</div></div>
+  <p class="section-intro">A judge-ready comparison should show <b>what is publicly known</b>, what is not disclosed, and where VYOM R1 is intentionally positioned.</p>
+
+  <table class="matrix" style="margin-top:26px">
+    <thead><tr><th>Parameter</th><th>Gridbots BRUTE / TLH</th><th>ARNOBOT SAIBYA</th><th>GDLS MUTT / S-MET</th><th class="v">VYOM R1</th></tr></thead>
+    <tbody>
+      <tr><td><b>Payload / load role</b></td>
+        <td><a href="https://www.gridbots.com/gridbots_brute.html" target="_blank"><b>250 kg</b></a> · tactical load-hauling variant</td>
+        <td><a href="https://arnobot.in/product?id=saibya" target="_blank"><b>200 kg</b></a> · defence logistics</td>
+        <td><a href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank"><b>1,000 lb ≈ 454 kg</b></a> operational capability</td>
+        <td class="v"><b>Project target</b> · compact tactical logistics</td></tr>
+      <tr><td><b>Mobility</b></td>
+        <td><a href="https://www.gridbots.com/gridbots_brute.html" target="_blank">6×6 · all-terrain · 40° gradability</a></td>
+        <td><a href="https://arnobot.in/product?id=saibya" target="_blank">4×4 · stair-climbing · all-terrain</a></td>
+        <td><a href="https://www.gdls.com/mutt/" target="_blank">Robotic mule · dismounted operations</a></td>
+        <td class="v"><b>Compact 4-wheel platform</b> · rough/narrow terrain focus</td></tr>
+      <tr><td><b>Autonomy</b></td>
+        <td><a href="https://www.gridbots.com/gridbots_brute.html" target="_blank">Manual · Follow-Me · Waypoint · Swarm</a></td>
+        <td><a href="https://arnobot.in/product?id=saibya" target="_blank">Remote · Semi-autonomous · Fully autonomous</a></td>
+        <td><a href="https://www.gdls.com/mutt/" target="_blank">Semi-autonomous · tether / RC</a></td>
+        <td class="v"><b>Manual → Follow-Me → Supervised → Waypoint</b></td></tr>
+      <tr><td><b>Perception / navigation</b></td>
+        <td><a href="https://www.gridbots.com/gridbots_brute.html" target="_blank">3D LiDAR · RTK GPS · LiDAR-SLAM · camera/thermal</a></td>
+        <td><a href="https://arnobot.in/technology" target="_blank">Laser · camera · inertial sensing</a></td>
+        <td><a href="https://www.gdls.com/mutt/" target="_blank">Human-following + robotic mobility architecture</a></td>
+        <td class="v"><b>LiDAR + camera + GNSS + IMU + wheel odometry + sensor fusion</b></td></tr>
+      <tr><td><b>Operational orientation</b></td>
+        <td>Multi-role defence UGV + tactical logistics</td>
+        <td>Multi-role defence / industrial UGV</td>
+        <td>Soldier load reduction + tactical resupply</td>
+        <td class="v"><b>Mission-specific last-mile logistics assistant</b></td></tr>
+      <tr><td><b>Public programme maturity</b></td>
+        <td>Product + defence demonstrations</td>
+        <td>Product + defence field trials / demonstrations</td>
+        <td><b>U.S. Army selected / fielded S-MET programme</b></td>
+        <td class="v"><b>TRL 2 → target TRL 4–5</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="rule"></div>
+  <div class="visual-title" style="margin-bottom:12px">
+    <div><div class="kicker">Cost visibility</div><h2 style="font-size:21px">What can actually be priced from public sources?</h2></div>
+  </div>
+
+  <div class="three">
+    <div class="info" style="background:#fafbfc">
+      <div class="small">GRIDBOTS</div>
+      <h3 style="font-size:22px;margin-top:6px">Not disclosed</h3>
+      <p>Public product material gives specifications, but no verified public selling price or development budget was found.</p>
+      <a href="https://www.gridbots.com/gridbots_brute.html" target="_blank" style="font-size:10px;color:#6546c7;text-decoration:none">View official product page →</a>
+    </div>
+    <div class="info" style="background:#fafbfc">
+      <div class="small">ARNOBOT SAIBYA</div>
+      <h3 style="font-size:22px;margin-top:6px">Not disclosed</h3>
+      <p>Official SAIBYA material publishes payload and capabilities, but not a verified public project price.</p>
+      <a href="https://arnobot.in/product?id=saibya" target="_blank" style="font-size:10px;color:#6546c7;text-decoration:none">View official product page →</a>
+    </div>
+    <div class="info" style="background:#f9f7ff;border-color:#d8cef2">
+      <div class="small">GDLS / U.S. ARMY</div>
+      <h3 style="font-size:22px;margin-top:6px">₹1,564 Cr</h3>
+      <p><a href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank">$162.4M</a> contract for 624 S-METs. At ~₹96.3/USD, this is approximately ₹1,564 crore.</p>
+      <a href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank" style="font-size:10px;color:#6546c7;text-decoration:none">Army source →</a>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Important costing note</strong>
+    <p>The ₹1,564 crore figure is a <b>programme contract value</b>, not a retail vehicle price. Dividing the reported contract by 624 gives an indicative contract-equivalent of about <b>₹2.51 crore per system</b>; this should not be presented as a quoted unit selling price.</p>
+  </div>
+
+  <div class="info" style="background:#fbfbfd">
+    <h3>VYOM R1 prototype budget</h3>
+    <div class="three" style="margin-top:12px">
+      <div class="info"><div class="small">PHASE 1</div><h3>₹4,29,305</h3><p>Prototype development budget in the project proposal.</p></div>
+      <div class="info"><div class="small">PHASE 2</div><h3>₹69,695</h3><p>Additional development / validation allocation.</p></div>
+      <div class="info" style="background:#f3f0ff"><div class="small">TOTAL</div><h3>₹4,99,000</h3><p>Proposed project budget.</p></div>
+    </div>
+  </div>
+
+  <p class="note">USD conversion reference: 4 Oct 2026 USD/INR ≈ ₹96.3 per USD. Conversion is for comparison only and does not change the original U.S. Army contract value. <a href="https://economictimes.indiatimes.com/markets/forex" target="_blank" style="color:#6546c7">View current FX reference →</a></p>
+
+  <div class="footer"><span>COMPARATIVE CAPABILITY + COST</span><span>06</span></div>
+</section>
+
+<section class="page">
+  <div class="visual-title"><div><div class="kicker">06 / References</div><h2>Primary sources & verification</h2></div><div class="section-no">CLICKABLE SOURCES</div></div>
+  <p class="section-intro">Every externally sourced specification or programme figure used in this dossier is linked below. Open the source directly from the page when a judge asks for verification.</p>
+
+  <div class="sources" style="margin-top:28px">
+    <div class="source"><b>Gridbots BRUTE / BRUTE-TLH</b><span class="small">Payload, mobility, autonomy and platform specifications</span><a href="https://www.gridbots.com/gridbots_brute.html" target="_blank">Open official source →</a></div>
+    <div class="source"><b>Gridbots Defence & Homeland</b><span class="small">Defence product positioning</span><a href="https://www.gridbots.com/defenceandhomeland.html" target="_blank">Open official source →</a></div>
+    <div class="source"><b>ARNOBOT SAIBYA</b><span class="small">200 kg payload, 4×4, autonomy modes, applications and trials</span><a href="https://arnobot.in/product?id=saibya" target="_blank">Open official source →</a></div>
+    <div class="source"><b>ARNOBOT Technology</b><span class="small">Technology / sensing and autonomy information</span><a href="https://arnobot.in/technology" target="_blank">Open official source →</a></div>
+    <div class="source"><b>General Dynamics Land Systems — MUTT</b><span class="small">MUTT / S-MET architecture and programme positioning</span><a href="https://www.gdls.com/mutt/" target="_blank">Open official source →</a></div>
+    <div class="source"><b>U.S. Army — S-MET</b><span class="small">$162.4M contract, 624 systems, load and endurance figures</span><a href="https://www.army.mil/article/229240/robotic_mules_set_to_modernize_infantry_brigade_combat_teams" target="_blank">Open Army source →</a></div>
+    <div class="source"><b>U.S. Army — S-MET assessment</b><span class="small">Testing, soldier feedback and fielding programme</span><a href="https://www.army.mil/article/236204/small_robotic_mule_other_unmanned_ground_systems_on_the_horizon" target="_blank">Open Army source →</a></div>
+    <div class="source"><b>U.S. Army Budget Justification</b><span class="small">S-MET Increment I programme cost and procurement information</span><a href="https://www.asafm.army.mil/Portals/72/Documents/BudgetMaterial/2024/Base%20Budget/rdte/RDTE-Vol%202-Budget%20Activity%205D.pdf" target="_blank">Open budget PDF →</a></div>
+    <div class="source"><b>iDEX — Autonomous Load Carrier</b><span class="small">Indian Army autonomous load-carrier challenge</span><a href="https://www.idex.gov.in//challenges-cpt/2413" target="_blank">Open iDEX source →</a></div>
+    <div class="source"><b>USD / INR reference</b><span class="small">Exchange-rate reference used only for INR conversion</span><a href="https://economictimes.indiatimes.com/markets/forex" target="_blank">Open FX source →</a></div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="two">
+    <div class="info">
+      <h3>How to read the costing</h3>
+      <p>The competitor section distinguishes <b>publicly disclosed pricing</b> from <b>programme contract values</b>. No price is invented where a manufacturer has not published one.</p>
+    </div>
+    <div class="info">
+      <h3>How to read the differentiation</h3>
+      <p>VYOM R1 is positioned against the competitors on <b>mission focus, autonomy progression, human control and Indian deployment context</b> — not by claiming that competitors lack comparable technologies.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:75px;text-align:center">
+    <div class="kicker">END OF RESEARCH DOSSIER</div>
+    <h2 style="font-size:22px">VYOM R1 — Tactical Autonomous Ground Assistant</h2>
+    <p class="small">Competitor analysis · technical positioning · programme costing · primary-source references</p>
+  </div>
+
+  <div class="footer"><span>REFERENCES / VERIFICATION</span><span>07</span></div>
+</section>
+
+</main>
+</body>
+</html>
